@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+}
+
+group = rootProject.group
+version = rootProject.version
+
+repositories {
+    mavenCentral()
+    maven {
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+    maven {
+        url = 'https://oss.sonatype.org/content/repositories/snapshots/'
+    }
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot-api:1.21.1-R0.1-SNAPSHOT'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.processResources {
+    inputs.property('version', project.version)
+    filesMatching('plugin.yml') {
+        expand(version: project.version)
+    }
+}
+
+jar {
+    archiveBaseName = 'zhifontgo-spigot'
+}
